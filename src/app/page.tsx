@@ -2,6 +2,7 @@ import Image from "next/image";
 import fs from "node:fs/promises";
 
 import UploadForm from "@/app/upload-form";
+import { ThemeSwitch } from "@/common/theme-switch";
 
 export default async function Home() {
   const files = await fs.readdir("./public/uploads");
@@ -10,7 +11,7 @@ export default async function Home() {
     .map((file) => `/uploads/${file}`);
 
   return (
-    <div className="font-sans items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
+    <div className="flex flex-col font-sans items-center justify-items-center min-h-screen p-8 pb-20 gap-4 sm:p-20">
       <main className="flex flex-col gap-[32px] items-center justify-center w-full">
         <p className="font-mono text-sm/6 tracking-[-.01em]">Notarius</p>
         <p className="font-mono text-sm/6 tracking-[-.01em] ">
@@ -35,7 +36,9 @@ export default async function Home() {
           </ul>
         </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center"></footer>
+      <footer className="w-full row-start-3 flex gap-[24px] flex-wrap items-center justify-end">
+        <ThemeSwitch />
+      </footer>
     </div>
   );
 }
