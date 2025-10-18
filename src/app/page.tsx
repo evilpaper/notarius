@@ -14,13 +14,11 @@ export default async function Home() {
   return (
     <div className="flex flex-col font-sans items-center justify-items-center min-h-screen p-8 pb-20 gap-4 sm:p-20">
       <main className="flex flex-col gap-[32px] items-center justify-center w-full">
-        <p className="font-mono text-sm/6 tracking-[-.01em]">Notarius</p>
-        <p className="font-mono text-sm/6 tracking-[-.01em] ">
-          Send and sign documents digitally.
-        </p>
+        <p>Notarius</p>
+        <p>Send and sign documents digitally.</p>
         <UploadForm />
         <section className="flex flex-col gap-4 w-full">
-          <p className="font-mono text-sm/6">Uploaded files</p>
+          <p>Uploaded files</p>
           <ul className="flex gap-4">
             {images.map((image) => (
               <li key={image} className="px-2 h-auto ">
@@ -35,7 +33,7 @@ export default async function Home() {
                 <form action={removeFile}>
                   <input type="hidden" name="filename" value={image} />
                   <button
-                    className="font-mono text-sm/6 border border-gray-700 rounded-md p-2"
+                    className="border-gray-700 rounded-md p-2"
                     type="submit"
                   >
                     Remove

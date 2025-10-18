@@ -17,12 +17,8 @@ export function ThemeSwitch() {
 
   return (
     <>
-      <button className="font-mono text-sm/6" onClick={() => setTheme("dark")}>
-        Dark
-      </button>
-      <button className="font-mono text-sm/6" onClick={() => setTheme("light")}>
-        Light
-      </button>
+      <button onClick={() => setTheme("dark")}>Dark</button>
+      <button onClick={() => setTheme("light")}>Light</button>
     </>
   );
 }
