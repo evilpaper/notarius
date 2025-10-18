@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 
 import UploadForm from "@/app/upload-form";
 import { ThemeSwitch } from "@/common/components/theme-switch";
+import { removeFile } from "./remove-action";
 
 export default async function Home() {
   const files = await fs.readdir("./public/uploads");
@@ -31,6 +32,15 @@ export default async function Home() {
                   alt={image}
                   className="object-cover w-full"
                 />
+                <form action={removeFile}>
+                  <input type="hidden" name="filename" value={image} />
+                  <button
+                    className="font-mono text-sm/6 border border-gray-700 rounded-md p-2"
+                    type="submit"
+                  >
+                    Remove
+                  </button>
+                </form>
               </li>
             ))}
           </ul>
