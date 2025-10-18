@@ -2,7 +2,7 @@ import Image from "next/image";
 import fs from "node:fs/promises";
 
 import UploadForm from "@/app/upload-form";
-import { ThemeSwitch } from "@/common/theme-switch";
+import { ThemeSwitch } from "@/common/components/theme-switch";
 
 export default async function Home() {
   const files = await fs.readdir("./public/uploads");
