@@ -22,9 +22,15 @@ export function ThemeSwitch() {
 
   return (
     <>
-      <button onClick={() => setTheme("dark")}>Dark</button>
-      <button onClick={() => setTheme("light")}>Light</button>
-      <button onClick={() => setTheme("orange")}>Orange</button>
+      <button className="text-sm" onClick={() => setTheme("dark")}>
+        Dark
+      </button>
+      <button className="text-sm" onClick={() => setTheme("light")}>
+        Light
+      </button>
+      <button className="text-sm" onClick={() => setTheme("orange")}>
+        Orange
+      </button>
     </>
   );
 }

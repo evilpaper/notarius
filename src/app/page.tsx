@@ -4,6 +4,7 @@ import fs from "node:fs/promises";
 import UploadForm from "@/app/upload-form";
 import { ThemeSwitch } from "@/common/components/theme-switch";
 import { removeFile } from "./remove-action";
+import { GeistMono } from "geist/font/mono";
 
 export default async function Home() {
   const files = await fs.readdir("./public/uploads");
@@ -12,10 +13,14 @@ export default async function Home() {
     .map((file) => `/uploads/${file}`);
 
   return (
-    <div className="flex flex-col font-sans items-center justify-items-center min-h-screen p-8 pb-20 gap-4 sm:p-20">
-      <main className="flex flex-col flex-1 gap-[32px] items-center justify-center w-full">
-        <p>Notarius</p>
-        <p>Send and sign documents digitally.</p>
+    <div className="flex flex-col font-sans items-center justify-items-center min-h-screen p-8 gap-4">
+      <main className="flex flex-col flex-1 gap-16 items-center justify-center w-full">
+        <section className="flex flex-col gap-4 items-center justify-center w-full">
+          <h1 className={`font-mono text-4xl font-bold ${GeistMono.className}`}>
+            Notarius
+          </h1>
+          <p className="text-lg">Send and sign documents digitally</p>
+        </section>
         <UploadForm />
         <section className="flex flex-col gap-4 w-full">
           {images.length > 0 && (
@@ -35,7 +40,7 @@ export default async function Home() {
                     <form action={removeFile}>
                       <input type="hidden" name="filename" value={image} />
                       <button
-                        className="border-gray-700 rounded-md p-2"
+                        className="border-gray-700 rounded-md p-2 text-sm w-full"
                         type="submit"
                       >
                         Remove

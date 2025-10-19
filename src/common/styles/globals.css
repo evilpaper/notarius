@@ -102,7 +102,7 @@
   --secondary: var(--orange-100);
   --secondary-foreground: var(--orange-900);
   --muted: var(--orange-100);
-  --muted-foreground: var(--orange-500);
+  --muted-foreground: var(--orange-800);
   --accent: var(--orange-100);
   --accent-foreground: var(--orange-900);
   --destructive: var(--orange-500);
