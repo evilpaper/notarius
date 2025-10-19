@@ -11,13 +11,16 @@ export default function UploadForm() {
       <label>
         <p className="text-center">Upload a file</p>
         <input
-          className="border border-gray-700 rounded-md p-4"
+          className="border border-border rounded-[var(--radius)] p-4 hover:border-primary"
           type="file"
           name="file"
           ref={fileInput}
         />
       </label>
-      <button className="border border-gray-700 rounded-md p-4" type="submit">
+      <button
+        className="border border-border rounded-[var(--radius)] p-4"
+        type="submit"
+      >
         Upload
       </button>
     </form>

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 export function ThemeSwitch() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState<"light" | "dark" | "orange">("light");
 
   useEffect(() => {
     // Apply theme class to html element
@@ -12,6 +12,11 @@ export function ThemeSwitch() {
     } else {
       document.documentElement.classList.remove("dark");
     }
+    if (theme === "orange") {
+      document.documentElement.classList.add("orange");
+    } else {
+      document.documentElement.classList.remove("orange");
+    }
     localStorage.setItem("theme", theme);
   }, [theme]);
 
@@ -19,6 +24,7 @@ export function ThemeSwitch() {
     <>
       <button onClick={() => setTheme("dark")}>Dark</button>
       <button onClick={() => setTheme("light")}>Light</button>
+      <button onClick={() => setTheme("orange")}>Orange</button>
     </>
   );
 }
