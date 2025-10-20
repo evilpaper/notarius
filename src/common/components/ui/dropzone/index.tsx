@@ -1,6 +1,6 @@
 "use client";
 
-import { UploadIcon } from "lucide-react";
+import { CheckCircle, UploadIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { createContext, useContext } from "react";
 import type { DropEvent, DropzoneOptions, FileRejection } from "react-dropzone";
@@ -197,6 +197,32 @@ export const DropzoneEmptyState = ({
       {caption && (
         <p className="text-wrap text-muted-foreground text-xs">{caption}.</p>
       )}
+    </div>
+  );
+};
+
+export type DropzoneSuccessStateProps = {
+  children?: ReactNode;
+  className?: string;
+};
+
+export const DropzoneSuccessState = ({
+  children,
+  className,
+}: DropzoneSuccessStateProps) => {
+  if (children) {
+    return children;
+  }
+
+  return (
+    <div className={cn("flex flex-col items-center justify-center", className)}>
+      <CheckCircle size={16} color="green" />
+      <p className="my-2 w-full truncate text-wrap font-medium text-sm">
+        Upload complete!
+      </p>
+      <p className="w-full truncate text-wrap text-muted-foreground text-xs">
+        Your files have been uploaded successfully
+      </p>
     </div>
   );
 };

@@ -6,11 +6,13 @@ import {
   Dropzone,
   DropzoneContent,
   DropzoneEmptyState,
+  DropzoneSuccessState,
 } from "@/common/components/ui/dropzone";
 
 export default function UploadForm() {
   const [files, setFiles] = useState<File[] | undefined>();
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState<"idle" | "success">("idle");
 
   const handleDrop = (files: File[]) => {
     console.log(files);
@@ -26,6 +28,7 @@ export default function UploadForm() {
     }
 
     setIsUploading(true);
+    setUploadStatus("idle");
 
     try {
       const formData = new FormData();
@@ -37,10 +40,17 @@ export default function UploadForm() {
 
       await uploadFile(formData);
 
-      // Clear files after successful upload
+      // Show success state
+      setUploadStatus("success");
       setFiles(undefined);
+
+      // Reset to idle after 3 seconds
+      setTimeout(() => {
+        setUploadStatus("idle");
+      }, 3000);
     } catch (error) {
       console.error("Upload failed:", error);
+      setUploadStatus("idle");
     } finally {
       setIsUploading(false);
     }
@@ -57,10 +67,15 @@ export default function UploadForm() {
         onError={console.error}
         src={files}
       >
-        <DropzoneEmptyState />
-        <DropzoneContent />
+        {uploadStatus === "success" ? (
+          <DropzoneSuccessState />
+        ) : (
+          <>
+            <DropzoneEmptyState />
+            <DropzoneContent />
+          </>
+        )}
       </Dropzone>
-
       <button
         className="border border-border rounded-[var(--radius)] p-4 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted transition-colors"
         type="submit"
