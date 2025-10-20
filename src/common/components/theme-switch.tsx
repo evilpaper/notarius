@@ -21,7 +21,7 @@ export function ThemeSwitch() {
   }, [theme]);
 
   return (
-    <>
+    <section className="flex gap-8">
       <button className="text-sm" onClick={() => setTheme("dark")}>
         Dark
       </button>
@@ -31,6 +31,6 @@ export function ThemeSwitch() {
       <button className="text-sm" onClick={() => setTheme("orange")}>
         Orange
       </button>
-    </>
+    </section>
   );
 }
