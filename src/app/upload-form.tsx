@@ -11,12 +11,18 @@ import {
 
 export default function UploadForm() {
   const [files, setFiles] = useState<File[] | undefined>();
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadStatus, setUploadStatus] = useState<"idle" | "success">("idle");
+  const [uploadStatus, setUploadStatus] = useState<
+    "idle" | "uploading" | "success" | "error"
+  >("idle");
 
   const handleDrop = (files: File[]) => {
     console.log(files);
     setFiles(files);
+
+    // Reset status when new files are dropped
+    if (uploadStatus === "success" || uploadStatus === "error") {
+      setUploadStatus("idle");
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -27,8 +33,7 @@ export default function UploadForm() {
       return;
     }
 
-    setIsUploading(true);
-    setUploadStatus("idle");
+    setUploadStatus("uploading");
 
     try {
       const formData = new FormData();
@@ -50,9 +55,12 @@ export default function UploadForm() {
       }, 3000);
     } catch (error) {
       console.error("Upload failed:", error);
-      setUploadStatus("idle");
-    } finally {
-      setIsUploading(false);
+      setUploadStatus("error");
+
+      // Reset to idle after 3 seconds
+      setTimeout(() => {
+        setUploadStatus("idle");
+      }, 3000);
     }
   };
 
@@ -79,9 +87,9 @@ export default function UploadForm() {
       <button
         className="border border-border rounded-[var(--radius)] p-4 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted transition-colors"
         type="submit"
-        disabled={!files || files.length === 0 || isUploading}
+        disabled={!files || files.length === 0 || uploadStatus === "uploading"}
       >
-        {isUploading ? "Uploading..." : "Upload"}
+        {uploadStatus === "uploading" ? "Uploading..." : "Upload"}
       </button>
     </form>
   );
