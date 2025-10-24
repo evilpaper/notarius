@@ -9,58 +9,55 @@ import {
   DropzoneSuccessState,
 } from "@/common/components/ui/dropzone";
 
+const RESET_DELAY = 2000;
+
 export default function UploadForm() {
-  const [files, setFiles] = useState<File[] | undefined>();
-  const [uploadStatus, setUploadStatus] = useState<
-    "idle" | "uploading" | "success" | "error"
-  >("idle");
+  const [state, setState] = useState<
+    | { status: "idle" }
+    | { status: "dropped"; files: File[] }
+    | { status: "uploading"; files: File[] }
+    | { status: "success" }
+    | { status: "error"; error: Error }
+  >({ status: "idle" });
 
   const handleDrop = (files: File[]) => {
-    console.log(files);
-    setFiles(files);
-
-    // Reset status when new files are dropped
-    if (uploadStatus === "success" || uploadStatus === "error") {
-      setUploadStatus("idle");
-    }
+    setState({ status: "dropped", files });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!files || files.length === 0) {
+    if (
+      state.status !== "dropped" ||
+      !state.files ||
+      state.files.length === 0
+    ) {
       console.error("No files selected");
       return;
     }
 
-    setUploadStatus("uploading");
+    setState({ status: "uploading", files: state.files });
 
     try {
       const formData = new FormData();
 
       // Add all files to FormData
-      files.forEach((file) => {
+      state.files.forEach((file) => {
         formData.append("files", file);
       });
 
       await uploadFile(formData);
+      setState({ status: "success" });
 
-      // Show success state
-      setUploadStatus("success");
-      setFiles(undefined);
-
-      // Reset to idle after 3 seconds
       setTimeout(() => {
-        setUploadStatus("idle");
-      }, 3000);
+        setState({ status: "idle" });
+      }, RESET_DELAY);
     } catch (error) {
-      console.error("Upload failed:", error);
-      setUploadStatus("error");
+      setState({ status: "error", error: error as Error });
 
-      // Reset to idle after 3 seconds
       setTimeout(() => {
-        setUploadStatus("idle");
-      }, 3000);
+        setState({ status: "idle" });
+      }, RESET_DELAY);
     }
   };
 
@@ -73,9 +70,13 @@ export default function UploadForm() {
         minSize={1024}
         onDrop={handleDrop}
         onError={console.error}
-        src={files}
+        src={
+          state.status === "dropped" || state.status === "uploading"
+            ? state.files
+            : undefined
+        }
       >
-        {uploadStatus === "success" ? (
+        {state.status === "success" ? (
           <DropzoneSuccessState />
         ) : (
           <>
@@ -87,9 +88,9 @@ export default function UploadForm() {
       <button
         className="border border-border rounded-[var(--radius)] p-4 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted transition-colors"
         type="submit"
-        disabled={!files || files.length === 0 || uploadStatus === "uploading"}
+        disabled={state.status !== "dropped"}
       >
-        {uploadStatus === "uploading" ? "Uploading..." : "Upload"}
+        {state.status === "uploading" ? "Uploading..." : "Upload"}
       </button>
     </form>
   );
