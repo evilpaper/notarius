@@ -18,7 +18,7 @@ export default function UploadForm() {
     | { status: "uploading"; files: File[] }
     | { status: "success" }
     | { status: "error"; error: Error }
-  >({ status: "idle" });
+  >({ status: "error", error: new Error("No files selected") });
 
   const handleDrop = (files: File[]) => {
     setState({ status: "dropped", files });
@@ -76,9 +76,8 @@ export default function UploadForm() {
             : undefined
         }
       >
-        {state.status === "success" ? (
-          <DropzoneSuccessState />
-        ) : (
+        {state.status === "success" && <DropzoneSuccessState />}
+        {state.status !== "success" && (
           <>
             <DropzoneEmptyState />
             <DropzoneContent />
