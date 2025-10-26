@@ -67,7 +67,7 @@ export default function UploadForm() {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <Dropzone
-        accept={{ "image/webp": [".webp"] }}
+        accept={{ pdf: [".pdf"] }}
         maxFiles={10}
         maxSize={1024 * 1024 * 10}
         minSize={1024}

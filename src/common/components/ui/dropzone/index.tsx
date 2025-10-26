@@ -242,7 +242,7 @@ export const DropzoneErrorState = ({
     <div className={cn("flex flex-col items-center justify-center", className)}>
       <XCircle size={16} color="red" />
       <p className="my-2 w-full truncate text-wrap font-medium text-sm">
-        Ouch! That didn't work.
+        Ouch!
       </p>
       <p className="w-full truncate text-wrap text-muted-foreground text-xs">
         {message.message}
