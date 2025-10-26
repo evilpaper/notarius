@@ -65,9 +65,11 @@ export default function UploadForm() {
   console.log(state.status);
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-4 w-full md:w-[24rem]"
+    >
       <Dropzone
-        accept={{ pdf: [".pdf"] }}
         maxFiles={10}
         maxSize={1024 * 1024 * 10}
         minSize={1024}

@@ -83,7 +83,7 @@ export const Dropzone = ({
     >
       <Button
         className={cn(
-          "relative h-auto w-full flex-col overflow-hidden p-8",
+          "relative h-32 w-full flex-col overflow-hidden p-24",
           isDragActive && "outline-none ring-1 ring-ring",
           className
         )}
@@ -131,18 +131,23 @@ export const DropzoneContent = ({
   }
 
   return (
-    <div className={cn("flex flex-col items-center justify-center", className)}>
+    <div
+      className={cn(
+        "flex w-full flex-col items-center justify-center gap-1",
+        className
+      )}
+    >
       <div className="flex size-8 items-center justify-center rounded-md bg-muted text-muted-foreground">
         <UploadIcon size={16} />
       </div>
-      <p className="my-2 w-full truncate font-medium text-sm">
+      <p className="w-full truncate font-medium text-sm">
         {src.length > maxLabelItems
           ? `${new Intl.ListFormat("en").format(
               src.slice(0, maxLabelItems).map((file) => file.name)
             )} and ${src.length - maxLabelItems} more`
           : new Intl.ListFormat("en").format(src.map((file) => file.name))}
       </p>
-      <p className="w-full text-wrap text-muted-foreground text-xs">
+      <p className="w-full truncate text-muted-foreground text-xs">
         Drag and drop or click to replace
       </p>
     </div>
@@ -184,18 +189,25 @@ export const DropzoneEmptyState = ({
   }
 
   return (
-    <div className={cn("flex flex-col items-center justify-center", className)}>
+    <div
+      className={cn(
+        "flex w-full flex-col items-center justify-center gap-1",
+        className
+      )}
+    >
       <div className="flex size-8 items-center justify-center rounded-md bg-muted text-muted-foreground">
         <UploadIcon size={16} />
       </div>
-      <p className="my-2 w-full truncate text-wrap font-medium text-sm">
+      <p className="w-full truncate font-medium text-sm">
         Upload {maxFiles === 1 ? "a file" : "files"}
       </p>
-      <p className="w-full truncate text-wrap text-muted-foreground text-xs">
+      <p className="w-full truncate text-muted-foreground text-xs">
         Drag and drop or click to upload
       </p>
       {caption && (
-        <p className="text-wrap text-muted-foreground text-xs">{caption}.</p>
+        <p className="w-full truncate text-muted-foreground text-xs">
+          {caption}.
+        </p>
       )}
     </div>
   );
@@ -215,12 +227,15 @@ export const DropzoneSuccessState = ({
   }
 
   return (
-    <div className={cn("flex flex-col items-center justify-center", className)}>
+    <div
+      className={cn(
+        "flex w-full flex-col items-center justify-center gap-1",
+        className
+      )}
+    >
       <CheckCircle size={16} color="green" />
-      <p className="my-2 w-full truncate text-wrap font-medium text-sm">
-        Upload complete!
-      </p>
-      <p className="w-full truncate text-wrap text-muted-foreground text-xs">
+      <p className="w-full truncate font-medium text-sm">Upload complete!</p>
+      <p className="w-full truncate text-muted-foreground text-xs">
         Your files have been uploaded successfully
       </p>
     </div>
@@ -239,12 +254,15 @@ export const DropzoneErrorState = ({
   message,
 }: DropzoneErrorStateProps) => {
   return (
-    <div className={cn("flex flex-col items-center justify-center", className)}>
+    <div
+      className={cn(
+        "flex w-full flex-col items-center justify-center gap-1",
+        className
+      )}
+    >
       <XCircle size={16} color="red" />
-      <p className="my-2 w-full truncate text-wrap font-medium text-sm">
-        Ouch!
-      </p>
-      <p className="w-full truncate text-wrap text-muted-foreground text-xs">
+      <p className="w-full truncate font-medium text-sm">Ouch!</p>
+      <p className="w-full truncate text-muted-foreground text-xs">
         {message.message}
       </p>
     </div>
