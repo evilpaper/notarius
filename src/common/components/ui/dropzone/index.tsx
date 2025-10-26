@@ -1,13 +1,12 @@
 "use client";
 
-import { CheckCircle, UploadIcon } from "lucide-react";
+import { CheckCircle, UploadIcon, XCircle } from "lucide-react";
 import type { ReactNode } from "react";
 import { createContext, useContext } from "react";
 import type { DropEvent, DropzoneOptions, FileRejection } from "react-dropzone";
 import { useDropzone } from "react-dropzone";
 import { Button } from "@/common/components/ui/button";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 
 type DropzoneContextType = {
   src?: File[];
@@ -68,7 +67,7 @@ export const Dropzone = ({
     onDrop: (acceptedFiles, fileRejections, event) => {
       if (fileRejections.length > 0) {
         const message = fileRejections.at(0)?.errors.at(0)?.message;
-        onError?.(new Error(message));
+        onError?.(new Error(message ?? "Something went wrong"));
         return;
       }
 
@@ -223,6 +222,30 @@ export const DropzoneSuccessState = ({
       </p>
       <p className="w-full truncate text-wrap text-muted-foreground text-xs">
         Your files have been uploaded successfully
+      </p>
+    </div>
+  );
+};
+
+export type DropzoneErrorStateProps = {
+  children?: ReactNode;
+  className?: string;
+  message: Error;
+};
+
+export const DropzoneErrorState = ({
+  children,
+  className,
+  message,
+}: DropzoneErrorStateProps) => {
+  return (
+    <div className={cn("flex flex-col items-center justify-center", className)}>
+      <XCircle size={16} color="red" />
+      <p className="my-2 w-full truncate text-wrap font-medium text-sm">
+        Ouch! That didn't work.
+      </p>
+      <p className="w-full truncate text-wrap text-muted-foreground text-xs">
+        {message.message}
       </p>
     </div>
   );

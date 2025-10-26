@@ -6,6 +6,7 @@ import {
   Dropzone,
   DropzoneContent,
   DropzoneEmptyState,
+  DropzoneErrorState,
   DropzoneSuccessState,
 } from "@/common/components/ui/dropzone";
 
@@ -18,7 +19,7 @@ export default function UploadForm() {
     | { status: "uploading"; files: File[] }
     | { status: "success" }
     | { status: "error"; error: Error }
-  >({ status: "error", error: new Error("No files selected") });
+  >({ status: "idle" });
 
   const handleDrop = (files: File[]) => {
     setState({ status: "dropped", files });
@@ -32,7 +33,7 @@ export default function UploadForm() {
       !state.files ||
       state.files.length === 0
     ) {
-      console.error("No files selected");
+      console.error("No files selected"); // TODO: Handle error message
       return;
     }
 
@@ -53,13 +54,15 @@ export default function UploadForm() {
         setState({ status: "idle" });
       }, RESET_DELAY);
     } catch (error) {
-      setState({ status: "error", error: error as Error });
+      setState({ status: "error", error: error as Error }); // TODO: Handle error message
 
       setTimeout(() => {
         setState({ status: "idle" });
       }, RESET_DELAY);
     }
   };
+
+  console.log(state.status);
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -69,7 +72,12 @@ export default function UploadForm() {
         maxSize={1024 * 1024 * 10}
         minSize={1024}
         onDrop={handleDrop}
-        onError={console.error}
+        onError={(error) => {
+          setState({
+            status: "error",
+            error: error,
+          });
+        }}
         src={
           state.status === "dropped" || state.status === "uploading"
             ? state.files
@@ -77,7 +85,10 @@ export default function UploadForm() {
         }
       >
         {state.status === "success" && <DropzoneSuccessState />}
-        {state.status !== "success" && (
+        {state.status === "error" && (
+          <DropzoneErrorState message={state.error} />
+        )}
+        {state.status !== "success" && state.status !== "error" && (
           <>
             <DropzoneEmptyState />
             <DropzoneContent />
