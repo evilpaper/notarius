@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# ---
+# Local development helper – not used in CI.
+# ---
+
 # Name of the local Postgres container we manage with this helper script
 DB_CONTAINER_NAME="notarius-dev"
 
@@ -32,7 +36,7 @@ fi
 
 # Import environment variables from the project-local configuration file
 set -a
-source .env.local
+source .env
 
 # Pull the password and port parts from DATABASE_URL so we can reuse them below
 DB_PASSWORD=$(echo "$DATABASE_URL" | awk -F':' '{print $3}' | awk -F'@' '{print $1}')
@@ -43,13 +47,13 @@ if [ "$DB_PASSWORD" = "password" ]; then
   echo "You are using the default database password"
   read -p "Should we generate a random password for you? [y/N]: " -r REPLY
   if ! [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo "Please change the default password in the .env.local file and try again"
+    echo "Please change the default password in the .env file and try again"
     exit 1
   fi
 
-  # Generate a random URL-safe password and update the .env.local file in-place
+  # Generate a random URL-safe password and update the .env file in-place
   DB_PASSWORD=$(openssl rand -base64 12 | tr '+/' '-_')
-  sed -i -e "s#:password@#:$DB_PASSWORD@#" .env.local
+  sed -i -e "s#:password@#:$DB_PASSWORD@#" .env
 fi
 
 # Create a new Postgres container configured to match the local application defaults
