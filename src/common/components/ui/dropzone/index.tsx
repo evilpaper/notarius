@@ -243,13 +243,11 @@ export const DropzoneSuccessState = ({
 };
 
 export type DropzoneErrorStateProps = {
-  children?: ReactNode;
   className?: string;
   message: Error;
 };
 
 export const DropzoneErrorState = ({
-  children,
   className,
   message,
 }: DropzoneErrorStateProps) => {
