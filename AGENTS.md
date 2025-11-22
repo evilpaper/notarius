@@ -8,4 +8,3 @@ This project uses:
 - **Drizzle ORM** for database management
 - **Playwright** for end-to-end testing
 - **TypeScript** for type safety
-
